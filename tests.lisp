@@ -13,18 +13,18 @@
 
 (prove:subtest "Mapcache with expired keys"
   (let ((cache (make-cache-table :test #'equal))
-        (alist-before nil)
-        (alist-after nil))
+        (list-before nil)
+        (list-after nil))
     (cache-table-put "key1" "value" cache :expire 0.5)
     (cache-table-put "key2" "value" cache :expire 2)
     (cache-table-put "key3" "value" cache :expire 0)
     (cache-table-put "key4" "value" cache)
-    (mapcache #'(lambda (k v) (push k alist-before)) cache)
+    (mapcache #'(lambda (k v) (push k list-before)) cache)
     (sleep 0.6)
-    (mapcache #'(lambda (k v) (push k alist-after)) cache)
-    (prove:ok (not (set-difference alist-before '("key1" "key2" "key3" "key4")
+    (mapcache #'(lambda (k v) (push k list-after)) cache)
+    (prove:ok (not (set-difference list-before '("key1" "key2" "key3" "key4")
                     :test #'string=)) "Mapcache before expiration.")
-    (prove:ok (not (set-difference alist-after '("key2" "key3" "key4")
+    (prove:ok (not (set-difference list-after '("key2" "key3" "key4")
                     :test #'string=)) "Mapcache after expiration.")))
 
 (prove:subtest "Copy cache"
@@ -36,7 +36,7 @@
     (prove:is (cache-table-count cache2) 1 "Count on copy")
     (cache-table-put "second key" "value" cache1)
     (prove:is (cache-table-count cache1) 2 "Count on original after modification.")
-    (prove:is (cache-table-count cache2) 1) "Count on copy after modifying original."))
+    (prove:is (cache-table-count cache2) 1 "Count on copy after modifying original.")))
 
 (prove:subtest "Other API methods"
   (let ((cache (make-cache-table :test #'equal)))
@@ -52,7 +52,7 @@
     (prove:ok (cache-table-del "key" cache) "Delete key.")
     (prove:is (cache-table-count cache) 1 "Count after deletion.")
     (prove:ok (cache-table-p (clrcache cache)) "Clear cache table.")
-    (prove:is (cache-table-count cache) 0) "Count after clearing cache table."))
+    (prove:is (cache-table-count cache) 0 "Count after clearing cache table.")))
 
 (prove:subtest "Cache-table-get-or-fill"
   (let ((cache (make-cache-table :test #'equal))
