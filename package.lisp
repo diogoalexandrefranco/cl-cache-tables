@@ -12,6 +12,7 @@
     #:cache-table-ttl
     #:cache-table-persist
     #:cache-table-count
+    #:cache-table-get-or-fill
     #:clrcache
     #:copy-cache-table
     #:cache-table-p))
