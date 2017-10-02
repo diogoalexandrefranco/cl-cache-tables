@@ -56,7 +56,7 @@ as in the native constuctor make-hash-table.
 (defvar *cache* (make-cache-table :test #'equal))
 ```
 
-#### (cache-table-put key value cache-table &key (expire 0)
+#### (cache-table-put key value cache-table &key (expire 0))
 cache-table-put populates the cache-table with a new key and value. The expire
 parameter is the time in seconds that the key will be present, where 0 means
 that it does not expire. Expire defaults to 0. cache-table-put returns the
@@ -78,7 +78,7 @@ where we store nil at a cache-table key).
 T
 ```
 
-#### (cache-table-get-or-fill (key cache-table fun &key (expire 0)))
+#### (cache-table-get-or-fill key cache-table fun &key (expire 0))
 Retrieves key from cache table, similarly to cache-table-get.
 When the key is not present (or has expired), fun is called with the key
 argument, to compute/retrieve it from another source. cache-table is then
@@ -148,7 +148,7 @@ Returns the number of key-value pairs in a cache-table.
 345
 ```
 
-#### (clrcache (cache-table)
+#### (clrcache cache-table)
 clrcache removes all entries from cache-table
 and returns that empty cache-table.
 ```lisp
@@ -163,7 +163,7 @@ to cache-table and returns it.
 (copy-cache-table *cache*) ;; new cache-table equal to cache-table
 ```
 
-#### (cache-table-p cache-table))
+#### (cache-table-p cache-table)
 cache-table-p is a predicate that checks if cache-table if indeed
 a cache-table. Returns T if is, NIL otherwise.
 ```list
